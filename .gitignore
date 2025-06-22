@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Django
+db.sqlite3
+*.log
+
+# 環境変数
+.env
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
