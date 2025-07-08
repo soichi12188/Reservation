@@ -8,7 +8,7 @@ urlpatterns= [
     # reserveアプリケーションのviewsのhomwメソッドにアクセス
     path('', views.home, name='home'),
     path('reserve', views.reserve, name='reserve'),
-    path('reservedetails', views.reservedetails, name='reservedetails'),
+    path('reservedetails.<int:pk>', views.reservedetails, name='reservedetails'),
     path('mypage', views.mypage, name='mypage'),
     path('mypagesettings', views.mypagesettings, name='mypagesettings'),
     path('login', views.login, name='login'),

@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
-
 # 最初に見られるurl部分　path('reserve/', include('reserve.urls'))でreserveアプリケーションに飛ぶことができる
 # アプリケーションが増えるごとにマッピング
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('reserve/', include('reserve.urls')),
+    # path('reservations/<int:pk>', views.reserbationdetails, name='reservedetails')
 ]

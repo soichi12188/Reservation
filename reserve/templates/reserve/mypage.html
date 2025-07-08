@@ -1,1 +1,22 @@
-<h1>mypage</h1>
+{% extends "reserve/base.html"%}
+
+{% comment %} base.htmlの　<div id="content">{% block content %}{% endblock %}</div>と差し込まれている部分のレイアウトが適応されるということ {% endcomment %}
+{% block content%}
+<h1>{{client.name}}さんのマイページ</h1>
+<h2>現在の予約</h2>
+{% for r in current_list %}
+    <p>{{r.date_time}} - {{r.purpose}} (担当:{{r.employee.name}})</p>
+{% comment %} current_listが空だった場合 {% endcomment %}
+{% empty %}
+    <p>現在の予約はありません</p>
+{% comment %} 下記にてループの終了を示す必要あり {% endcomment %}
+{% endfor %}
+
+<h2>過去の予約</h2>
+{% for r in past_list %}
+<p>{{r.date_time}} - {{r.purpose}} (担当:{{r.employee.name}})</p>
+{% empty %}
+    <p>過去の予約はありません</p>
+{% endfor %}
+
+{% endblock%}
