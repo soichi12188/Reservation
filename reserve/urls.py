@@ -7,10 +7,11 @@ urlpatterns= [
     # path('', views.index, name='index'),
     # reserveアプリケーションのviewsのhomwメソッドにアクセス
     path('', views.home, name='home'),
-    path('reserve', views.reserve, name='reserve'),
-    path('reservedetails.<int:pk>', views.reservedetails, name='reservedetails'),
-    path('mypage', views.mypage, name='mypage'),
-    path('mypagesettings', views.mypagesettings, name='mypagesettings'),
-    path('login', views.login, name='login'),
-    path('register', views.register, name='register'),
+    path('reserve/', views.reserve, name='reserve'),
+    path('reservedetails/<int:pk>/', views.reservedetails, name='reservedetails'),
+    path('mypage/', views.mypage, name='mypage'),
+    path('mypagesettings/', views.mypagesettings, name='mypagesettings'),
+    path('login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
+    path('logout/', views.logout_view,name='logout'),
 ]

@@ -2,8 +2,8 @@
 {% block content %}
     <h1>reserve details</h1>
     <!-- views.pyでreservationを渡しているため、ここで表示 -->
-    <p>日時:{{reservation.datte_time}}</p>
+    <p>日時:{{reservation.date_time}}</p>
     <p>目的:{{reservation.purpose}}</p>
     <p>担当:{{reservation.employee.name}}</p>
-    <a href="{% url 'mypage' %}">マイページへ戻る</a>[]
-{% endlock %}
+    <a href="{% url 'mypage' %}">マイページへ戻る</a>
+{% endblock %}

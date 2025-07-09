@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation App</title>
+    {% comment %} reserve.cssを適用させる {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/reserve.css' %}">
+</head>
+<body>
+    <header>
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="nav-link">Home</a>
+        {% if request.session.client_id %}
+        <a href="{% url 'mypage' %}" class="nav-link">マイページ</a>
+        <a href="{% url 'logout' %}" class="nav-link">ログアウト</a>
+        <a href="{% url 'reserve'%}" class='nav-link'>予約</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="nav-link">ログイン</a>
+        <a href="{% url 'register' %}" class="nav-link">会員登録</a>
+        {% endif %}
+    </nav>
+    </header>
+
+    <div class="container">
+    {% block content %}
+    <!-- 各ページのコンテンツはこちらに差し込まれます -->
+    {% endblock %}
+    </div>
+
+    <footer>
+        <p>© 2025 Reservation App</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,36 @@
+.
+├── folder.txt
+├── manage.py
+├── reservation
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── reserve
+    ├── __init__.py
+    ├── admin.py
+    ├── apps.py
+    ├── migrations
+    │   ├── 0001_initial.py
+    │   └── __init__.py
+    ├── models.py
+    ├── static
+    │   ├── css
+    │   │   └── reserve.css
+    │   ├── img
+    │   └── js
+    ├── templates
+    │   └── reserve
+    │       ├── home.html
+    │       ├── login.html
+    │       ├── mypage.html
+    │       ├── mypagesettings.html
+    │       ├── register.html
+    │       ├── reserve.html
+    │       └── reservedetails.html
+    ├── tests.py
+    ├── urls.py
+    └── views.py
+
+10 directories, 24 files

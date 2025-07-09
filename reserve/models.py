@@ -8,7 +8,8 @@ class Client(models.Model):
     # 男＝true　女＝false
     gender = models.BooleanField(null=True)
     age = models.IntegerField()
-    mail = models.EmailField()
+    # Unique=Trueは同じメールアドレスを登録できないということ
+    mail = models.EmailField(unique=True)
     past = models.ForeignKey('Past_reservation', 
                             on_delete=models.CASCADE,
                             null= True,
