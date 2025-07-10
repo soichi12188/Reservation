@@ -3,6 +3,8 @@ from django.contrib.auth.hashers import make_password, check_password
 
 # Create your models here.
 
+# class Metaを設定することによってプログラムで使うモデルの設定などを行える
+
 class Client(models.Model):
     name = models.CharField(max_length=100)
     # 男＝true　女＝false
@@ -30,7 +32,6 @@ class Client(models.Model):
 
     def check_password(self, raw_password):
         return check_password(raw_password, self.password)
-    
     # save()のオーバーライド
     # データベースに書き込むときに必ずハッシュ化されるように設定
     # *args, **kwargsは可変長変数なので、どれだけ多くの引数を渡されても受け取れるようにする仕組み
@@ -38,10 +39,8 @@ class Client(models.Model):
         # ハッシュ化されているかを確認
         # ハッシュ化されていると冒頭に「pbkdf2_」が頭文字とされている
         if self.password and not self.password.startswith('pbkdf2_'):
-
             # ハッシュ化されてからデータベースへ書き込み
             self.password = make_password(self.password)
-
         super().save(*args, **kwargs)
 
 
@@ -58,6 +57,13 @@ class Current_reservation(models.Model):
     employee = models.ForeignKey('Employee',on_delete=models.CASCADE)
     date_time = models.DateTimeField()
     purpose = models.CharField(max_length=100)
+    # キャンセルするかしないか
+    is_canceled = models.BooleanField(default=False)
+    # キャンセル日時
+    canceled_at = models.DateTimeField(null=True, blank=True)
+    # 何度もリマインドメールを送らないようにすでに送信済みかを覚えておく
+    notified_1h = models.BooleanField(default=False)
+    notified_24h = models.BooleanField(default=False)
 
 class Past_reservation(models.Model):
     purpose = models.CharField(max_length=100)

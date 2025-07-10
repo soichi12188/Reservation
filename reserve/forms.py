@@ -48,12 +48,24 @@ class CurrentReservationForm(forms.ModelForm):
         fields = ['date_time', 'purpose', 'employee']
 
 class ProfileForm(forms.ModelForm):
+    # どのモデルをベースにどのフィールドを使って、どのウィジェットで表示するかを指定するもの
     class Meta:
         # どのモデルを使うか指定　会員情報のためClient
         model = Client
         # 編集を許可するモデルの属性リスト
         fields = ['name', 'gender', 'age', 'mail']
+        # 表示方法の指定ができる
         widgets = {
             # 性別フィールドだけラジオボタンで表示
             'gender' : forms.RadioSelect(choices=[(True, '男性'), False, '女性']),
         }
+
+class ReservationEditForm(forms.ModelForm):
+    date_time = forms.DateTimeField(
+        label='予約時間',
+        widget=forms.DateTimeInput(attrs={'type':'datetime-local'})
+    )
+    # どのモデルをベースにどのフィールドを使って、どのウィジェットで表示するかを指定するもの
+    class Meta:
+        model = Current_reservation
+        fields = ['date_time', 'purpose']

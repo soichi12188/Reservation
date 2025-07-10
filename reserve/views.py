@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
-from .forms import ClientForm,LoginForm,CurrentReservationForm,ProfileForm
+from django.shortcuts import render, redirect,get_object_or_404
+from .forms import ClientForm,LoginForm,CurrentReservationForm,ProfileForm,ReservationEditForm
 from .models import Client, Current_reservation, Past_reservation
 from django.utils import timezone
+from .decorators import require_login
+
 
 # viewの関数を作成するごとにページを増やすことができる
 # def index(request):
@@ -67,26 +69,67 @@ def reservedetails(request, pk):
         'reservation':reservation
     })
 
+@require_login
+def reserve_edit(request,pk):
+    # 指定した条件に合うレコードがあれば取得し、なければ404エラーを返す関数
+    # sesssionの中でキャンセルされていない予約を取得している
+    res = get_object_or_404(
+        Current_reservation,
+        pk=pk,
+        customer_id = request.session['client_id'],
+        is_canceled = False,
+    )
+    if request.method =='POST':
+        # instance=resと書くと、フォームの各フィールドにおけるすでにデータベースに保存されている既存オブジェクトを編集対象にする
+        form = ReservationEditForm(request.POST, instance=res)
+        if form.is_valid():
+            form.save()
+            return redirect('reservedetails', pk=pk)
+    else:
+        form = ReservationEditForm(instance=res)
+    return render(request, 'reserve/reserve_edit.html', {'form':form})
+
+@require_login
+def reserve_cancel(request, pk):
+    # sessionの自分の予約を受け取っている
+    res = get_object_or_404(
+        Current_reservation,
+        pk=pk,
+        customer_id = request.session['client_id']
+    )
+    res.is_canceled = True
+    res.canceled_at = timezone.now()
+    # 変更をデータベースに保存
+    res.save()
+    return redirect('mypage')
+
 def mypage(request):
     client_id = request.session.get('client_id')
     client = Client.objects.get(pk=client_id)
     # タイムゾーン設定に沿った今を返す関数
     now = timezone.now()
-    # モデルの外部キーcustomerで絞り込みを行っている
+    # Current_reservationのオブジェクトを作成する際の絞り込みをfilterで行っている
     current = Current_reservation.objects.filter(
         customer=client,
         # gte=「以上」　未来の予約
-        date_time__gte=now
+        date_time__gte=now,
+        is_canceled = False
         )
     # employee__(_が2つ)で記載するとemployee→その先のcustomerで絞り込みを行うことができる
     past = Current_reservation.objects.filter(
         customer=client,
         # lt=「未満」　過去の予約　それぞれを切り分ける
-        date_time__lt=now
+        date_time__lt=now,
+        is_canceled = False,
+    )
+    cancel = Current_reservation.objects.filter(
+        customer = client,
+        is_canceled = True,
     )
     return render(request, 'reserve/mypage.html',{
         'current_list':current,
         'past_list':past,
+        'canceled_list':cancel,
         'client':client,
     })
 
