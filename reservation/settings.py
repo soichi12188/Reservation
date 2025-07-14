@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -106,10 +107,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
-
+# 時刻情報をタイムゾーン付きで扱うフラグ
 USE_TZ = True
 
 
@@ -122,3 +123,25 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Celery設定
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
+
+CELERY_BEAT_SCHEDULE = {
+    'send-reminders-every-minute': {
+        # 実行するタスクの記載場所
+        'task': 'reserve.tasks.send_reminders',
+        # タスクの実行間隔
+        'schedule': crontab(minute='*'),  # 毎分チェック
+    },
+}
+
+# Celery のタイムゾーン設定（Beat／Worker 両方に適用）
+CELERY_TIMEZONE = 'Asia/Tokyo'
+# UTC を有効にしたままローカルタイムで動かす
+CELERY_ENABLE_UTC = True
+
+# メール設定
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

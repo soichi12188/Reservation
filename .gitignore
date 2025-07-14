@@ -1,15 +1,44 @@
 # Python
 __pycache__/
 *.pyc
+*.egg-info/
+*.py[cod]
+*$py.class
 
 # Django
 db.sqlite3
 *.log
+reserve/migrations/
+/staticfiles/
+media/
+
+# Celery beat schedule file
+celerybeat-schedule
+
+# Logs
+*.log
 
 # 環境変数
 .env
+venv/
+.env
+.env.local
+.env.*.local
 
 # IDE / OS
 .vscode/
 .idea/
 .DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Test / coverage
+.coverage
+htmlcov/
+
+# Migrations (if you want to ignore auto-generated initial migrations, otherwise keep)
+# reserve/migrations/0001_initial.py
