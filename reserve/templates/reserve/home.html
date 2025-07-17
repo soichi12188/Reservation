@@ -1,31 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>予約管理</title>
-</head>
-<body>
-    <h1>予約管理</h1>
-    <br>
-    <form action="">
-        <h2>来店目的を選択してください</h2>
-        <select name="purpose" required>
-            <option value="">選択してください</option>
-            <option value="buy">車両購入</option>
-            <option value="adjust">車両整備</option>
-            <option value="other">その他</option>
-        </select>
-
-        <h2>誰宛の訪問か選択してください</h2>
-        <select name="who" required>
-            <option value="">山田</option>
-            <option value="">田中</option>
-            <option value="">橋本</option>
-            <option value="">特に決まっていない</option>
-        </select>
-
-        <h2></h2>
-    </form>
-</body>
-</html>
+{% extends "reserve/base.html" %}
+{% block content %}
+    <h1>予約管理アプリへようこそ</h1>
+    {% if client %}
+        <p>{{ client.name }}さん、こんにちは！</p>
+        {% if is_admin %}
+            <a href="{% url 'admin_dashboard' %}">管理者ダッシュボード</a>
+        {% endif %}
+            <a href="{% url 'mypage' %}">マイページを見る</a>
+            <a href="{% url 'reserve' %}">新しい予約をする</a>
+            <a href="{% url 'logout' %}">ログアウト</a>
+    {% else %}
+        <a href="{% url 'login' %}">ログイン</a>
+        <a href="{% url 'register' %}">新規登録</a>
+    {% endif %}
+    <hr>
+    <h2>お知らせ</h2>
+    <ul>
+        <li>リマインダー機能は現在コンソール出力のみです。メール送信機能は今後追加予定！</li>
+        <li>ご不明点は<a href="#">お問い合わせ</a>からどうぞ。</li>
+    </ul>
+{% endblock %}

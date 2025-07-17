@@ -21,6 +21,8 @@ from django.urls import path,include
 # アプリケーションが増えるごとにマッピング
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('reserve/', include('reserve.urls')),
+    path('', include('reserve.urls')),
+
+    # path('reserve/', include('reserve.urls')),　これをコメントアウトしたのはreserveアプリケーションのurls.pyに記載されているreserveに飛ぶようにするため
     # path('reservations/<int:pk>', views.reserbationdetails, name='reservedetails')
 ]

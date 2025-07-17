@@ -1,7 +1,7 @@
 {% extends "reserve/base.html"%}
 {% block content%}
 <h1>マイページ設定</h1>
-<form>
+<form method="post">
     {%csrf_token%}
     {{form.as_p}}
     <button type="submit">更新</button>

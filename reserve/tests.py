@@ -29,9 +29,9 @@ class AppFlowTest(TestCase):
         })
         self.assertRedirects(resp, reverse('mypage'))
 
-        client = Client.objects.get(mail= 'taro@example.com')
+        client = Client.objects.get(mail= 'taro@example.com') #type: ignore
 
-        Employee.objects.create(
+        Employee.objects.create( #type: ignore 
             name='テストスタッフ',
             gender=True,
             age=40,
@@ -43,10 +43,11 @@ class AppFlowTest(TestCase):
         resp = self.client.post(reverse('reserve'), {
             'date_time': '2025-07-15T14:30',
             'purpose': 'テスト予約',
-            'employee': Employee.objects.first().id  # 事前に従業員レコードを用意しておく
+            # 事前に従業員レコードを用意しておく
+            'employee': Employee.objects.first().id #type: ignore
         })
         # 予約完了ページへリダイレクト
-        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.status_code, 302) #type: ignore
 
         # 5) マイページに現在予約として存在
         resp = self.client.get(reverse('mypage'))

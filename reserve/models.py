@@ -24,8 +24,10 @@ class Client(models.Model):
                                 blank=True,
                                 # 別のモデルから「逆向き」にデータを取るときに活用
                                 related_name='clients_current')
-    exsistence_current_reservation = models.BooleanField(default=False)
+    exsistence_current_reservation = models.BooleanField(default=False) #type: ignore
     password = models.CharField(max_length=128)
+    # 管理者かどうかを管理するフィールド
+    is_admin = models.BooleanField(default=False) #type: ignore
 
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
@@ -38,7 +40,8 @@ class Client(models.Model):
     def save(self, *args, **kwargs):
         # ハッシュ化されているかを確認
         # ハッシュ化されていると冒頭に「pbkdf2_」が頭文字とされている
-        if self.password and not self.password.startswith('pbkdf2_'):
+        # isinstance(self.password, str)はself.passwordがstr型かどうかを確認する
+        if isinstance(self.password, str) and not self.password.startswith('pbkdf2_'):
             # ハッシュ化されてからデータベースへ書き込み
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
@@ -58,12 +61,12 @@ class Current_reservation(models.Model):
     date_time = models.DateTimeField()
     purpose = models.CharField(max_length=100)
     # キャンセルするかしないか
-    is_canceled = models.BooleanField(default=False)
+    is_canceled = models.BooleanField(default=False)#type: ignore
     # キャンセル日時
     canceled_at = models.DateTimeField(null=True, blank=True)
     # 何度もリマインドメールを送らないようにすでに送信済みかを覚えておく
-    notified_1h = models.BooleanField(default=False)
-    notified_24h = models.BooleanField(default=False)
+    notified_1h = models.BooleanField(default=False)#type: ignore
+    notified_24h = models.BooleanField(default=False)#type: ignore
 
 class Past_reservation(models.Model):
     purpose = models.CharField(max_length=100)

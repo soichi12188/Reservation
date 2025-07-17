@@ -13,11 +13,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='current_reservation',
             name='notified_1h',
-            field=models.BooleanField(default=False),
+            field=models.BooleanField(default=False),#type: ignore
         ),
         migrations.AddField(
             model_name='current_reservation',
             name='notified_24h',
-            field=models.BooleanField(default=False),
+            field=models.BooleanField(default=False),#type: ignore
         ),
     ]

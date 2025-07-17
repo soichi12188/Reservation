@@ -10,7 +10,6 @@ app = Celery('reservation')
 # settings.pyに書いたCELERY_BROKER_URLやCELERY_BEAT_SCHEDULEを読み込む
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.enable_utc = True
-app.conf.timezone = 'Asia/Tokyo'
 # reserve/tasks.pyの@shared_taskを自動で見つけて登録
 app.autodiscover_tasks()
 

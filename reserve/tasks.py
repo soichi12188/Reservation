@@ -33,7 +33,9 @@ def send_reminders():
         window_start = now + timedelta(hours=delta)
         window_end = window_start + timedelta(minutes=1)
 
-        qs = Current_reservation.objects.filter(
+        # エラーの原因: Current_reservationクラスにobjectsマネージャが定義されていない、またはDjangoのモデルクラスを継承していない可能性がある
+        qs = Current_reservation.objects.filter( #type: ignore
+
             # date_timeがwindow_start以上、date_timeがwindow_end未満の予約を取得
             # 予約時間から1分未満の予約されたものを持ってくる
             date_time__gte=window_start,
@@ -43,11 +45,13 @@ def send_reminders():
         )
         # loginユーザーにメールを送信
         for r in qs:
+            # 予約時間をローカルタイム(ユーザーのタイムゾーン)に変換
+            local_dt = timezone.localtime(r.date_time)
             send_mail(
                 # 件名
                 subject=f"予約リマインダー：{r.purpose}",
                 # 本文
-                message=f"{r.date_time}の予約をお忘れなく！",
+                message=f"{local_dt}の予約をお忘れなく！",
                 # 送信もとメールアドレス
                 from_email="lvngk527ts@gmail.com",
                 # ユーザーメールアドレス

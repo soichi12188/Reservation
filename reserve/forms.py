@@ -1,4 +1,6 @@
+from pyexpat import model
 from django import forms
+from django.forms import widgets
 from .models import Client, Current_reservation
 
 # フォームを増やすタイミングは、機能を実装しながら「ここにユーザー入力が必要だな」と感じたとき
@@ -42,12 +44,24 @@ class CurrentReservationForm(forms.ModelForm):
             attrs={'type':'datetime-local'}
             )
     )
-
+    
     class Meta:
         model = Current_reservation
         fields = ['date_time', 'purpose', 'employee']
 
 class ProfileForm(forms.ModelForm):
+    GENDER_CHOICES = (
+        (True, '男性'),
+        (False, '女性')
+    )
+    # モデルのBooleanFieldを明示的にChiceFieldに置き換え（男性or女性の二択にするため）
+    gender = forms.ChoiceField(
+        label='性別',
+        # <select><option value="True">男</option><option value="False">女</option></select>というhtmlが自動生成される
+        choices= GENDER_CHOICES,
+        # プルダウン形式にすると言う明示的な定義
+        widget=forms.Select,
+    )
     # どのモデルをベースにどのフィールドを使って、どのウィジェットで表示するかを指定するもの
     class Meta:
         # どのモデルを使うか指定　会員情報のためClient
@@ -69,3 +83,13 @@ class ReservationEditForm(forms.ModelForm):
     class Meta:
         model = Current_reservation
         fields = ['date_time', 'purpose']
+
+# 管理者登録用のフォームを作る場合は、is_adminをフォームに追加
+class AdminRegisterForm(forms.Form):
+    password = forms.CharField(
+        widget=forms.PasswordInput(),
+    )
+    class Meta:
+        model = Client
+        fields = ['name', 'gender', 'age', 'mail', 'password']
+# is_adminはviewでTrueにする

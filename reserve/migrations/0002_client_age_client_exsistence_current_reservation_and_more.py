@@ -15,13 +15,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='client',
             name='age',
-            field=models.IntegerField(default=0),
+            field=models.IntegerField(default=0),#type: ignore
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='client',
             name='exsistence_current_reservation',
-            field=models.BooleanField(default=False),
+            field=models.BooleanField(default=False),#type: ignore
         ),
         migrations.AddField(
             model_name='client',
@@ -67,7 +67,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='employee',
             name='gender',
-            field=models.BooleanField(default=False),
+            field=models.BooleanField(default=False),#type: ignore
             preserve_default=False,
         ),
         migrations.AddField(

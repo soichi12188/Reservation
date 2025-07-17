@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from celery.schedules import crontab
 
@@ -21,21 +22,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-vz5xgkl$efd1_gyhw#pq^y*kmn65-6uy0ub55o*l=1c#8zep&r'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-vz5xgkl$efd1_gyhw#pq^y*kmn65-6uy0ub55o*l=1c#8zep&r')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else []
 
 
 # Application definition
 
+# Djangoがこの機能を使うと認識し、必要なテーブルや機能を自動的に作成してくれる
 INSTALLED_APPS = [
     'django.contrib.admin',
+    # ユーザーの登録、ログイン、パスワード管理などの機能を提供
     'django.contrib.auth',
+    # データベースのテーブルやモデルを定義するための機能を提供
     'django.contrib.contenttypes',
+    # セッション管理の機能を提供
     'django.contrib.sessions',
+    # メッセージ管理の機能を提供
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'reserve',
@@ -144,4 +150,19 @@ CELERY_TIMEZONE = 'Asia/Tokyo'
 CELERY_ENABLE_UTC = True
 
 # メール設定
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# 本番環境では以下の設定を使用する
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# # Email_HOST はメールサーバーのアドレス（Gmailの場合はsmtp.gmail.com、Outlookの場合はsmtp-mail.outlook.comなど）
+# EMAIL_HOST = 'smtp.gmail.com'
+# # Email_PORT はメールサーバーのポート番号（Gmailの場合は587、Outlookの場合は587など）
+# EMAIL_PORT = 587
+# # Email_HOST_USER はメールサーバーのユーザー名
+# EMAIL_HOST_USER = 'lvngk527ts@gmail.com'
+# # Email_HOST_PASSWORD は指定したメールアドレスのアプリパスワード（アプリパスワードを発行していない場合はパスワードを生成）
+# EMAIL_HOST_PASSWORD = 
+# # Email_USE_TLS はメールサーバーがTLSを使用するかどうか（Gmailの場合はTrue、Outlookの場合はFalseなど）
+# EMAIL_USE_TLS = True
