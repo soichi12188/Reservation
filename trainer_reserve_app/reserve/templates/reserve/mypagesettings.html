@@ -1,0 +1,11 @@
+{% extends "reserve/base.html"%}
+{% block content%}
+<h1>マイページ設定</h1>
+<form method="post">
+    {%csrf_token%}
+    {{form.as_p}}
+    <button type="submit">更新</button>
+</form>
+<a href="{% url 'mypage' %}">マイページへ戻る</a>
+
+{% endblock %}

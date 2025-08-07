@@ -1,0 +1,10 @@
+{% extends 'reserve/base.html' %}
+
+{% block content %}
+<h1>管理者ダッシュボード</h1>
+<p>管理者用の機能追加を行います</p>
+<a href="{% url 'admin_register' %}">管理者登録</a><br>
+<a href="{% url 'admin_user_list' %}">ユーザー一覧</a><br>
+<a href="{% url 'admin_reservation_list' %}">予約一覧</a><br>
+<a href="{% url 'mypage' %}">マイページに戻る</a>
+{% endblock %}

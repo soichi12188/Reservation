@@ -1,0 +1,10 @@
+{% extends 'reserve/base.html' %}
+
+{% block content %}
+<h1>管理者登録</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">管理者として登録</button>
+</form>
+{% endblock %}

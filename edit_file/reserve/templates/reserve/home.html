@@ -1,0 +1,22 @@
+{% extends "reserve/base.html" %}
+{% block content %}
+    <h1>予約管理アプリへようこそ</h1>
+    {% if profile %}
+        <p>{{ profile.user.username }}さん、こんにちは！</p>
+        {% comment %} {% if is_admin %}
+            <a href="{% url 'admin_dashboard' %}">管理者ダッシュボード</a>
+        {% endif %} {% endcomment %}
+            <a href="{% url 'mypage' %}">マイページを見る</a>
+            <a href="{% url 'reserve' %}">新しい予約をする</a>
+            <a href="{% url 'logout' %}">ログアウト</a>
+    {% else %}
+        <a href="{% url 'login' %}">ログイン</a>
+        <a href="{% url 'register' %}">新規登録</a>
+    {% endif %}
+    <hr>
+    <h2>お知らせ</h2>
+    <ul>
+        <li>リマインダー機能は現在コンソール出力のみです。メール送信機能は今後追加予定！</li>
+        <li>ご不明点は<a href="#">お問い合わせ</a>からどうぞ。</li>
+    </ul>
+{% endblock %}

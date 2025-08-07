@@ -1,0 +1,30 @@
+{% extends 'reserve/base.html' %}
+{% block content %}
+<h1>予約一覧</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>名前</th>
+            <th>メールアドレス</th>
+            <th>性別</th>
+            <th>年齢</th>
+            <th>予約日時</th>
+            <th>予約内容</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.customer.name }}</td>
+                <td>{{ reservation.customer.mail }}</td>
+                <td>{{ reservation.customer.gender }}</td>
+                <td>{{ reservation.customer.age }}</td>
+                <td>{{ reservation.date_time }}</td>
+                <td>{{ reservation.purpose }}</td>
+                <td>{% if reservation.is_canceled %}キャンセル済み{% else %}予約中{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

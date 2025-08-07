@@ -1,0 +1,24 @@
+{% extends 'reserve/base.html' %}
+{% block content %}
+<h1>ユーザー一覧</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>名前</th>
+            <th>メールアドレス</th>
+            <th>性別</th>
+            <th>年齢</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients %}
+            <tr>
+                <td>{{ client.name }}</td>
+                <td>{{ client.mail }}</td>
+                <td>{{ client.gender }}</td>
+                <td>{{ client.age }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
