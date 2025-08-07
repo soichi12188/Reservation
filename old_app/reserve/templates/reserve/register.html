@@ -1,0 +1,14 @@
+<!-- base.htmlというレイアウトの土台を使うという宣言 -->
+{% extends "reserve/base.html"%}
+<!-- base.htmlのどの部分に挿入するか　base.htmlにcontentで囲ったブロックを作成しておく -->
+{% block content %}
+<h1>会員登録</h1>
+<form method="post">
+    <!-- Djangoが自動で作成するセキュリティ対策のトークンをフォームに埋め込んでいる -->
+    {% csrf_token %}
+    <!-- forms.pyで作成したformオブジェクト、views.pyから渡されてものを表示 -->
+    {{ form.as_p }}
+    <button type="submit">登録</button>
+</form>
+
+{% endblock %}

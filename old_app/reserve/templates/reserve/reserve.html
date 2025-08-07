@@ -1,0 +1,13 @@
+{% extends "reserve/base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>予約</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button action='submit'>
+        予約
+    </button>
+</form>
+{% endblock  %}

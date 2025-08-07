@@ -1,0 +1,10 @@
+{% extends "reserve/base.html" %}
+{% block content %}
+<h1>予約を修正</h1>
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type='submit'>更新する</button>
+</form>
+<a href="{% url 'mypage'%}">マイページの戻る</a>
+{% endblock  %}

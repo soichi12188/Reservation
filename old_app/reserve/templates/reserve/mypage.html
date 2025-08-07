@@ -1,0 +1,40 @@
+{% extends "reserve/base.html" %}
+
+{% comment %} base.htmlの　<div id="content">{% block content %}{% endblock %}</div>と差し込まれている部分のレイアウトが適応されるということ {% endcomment %}
+{% block content%}
+<h1>{{client.name}}さんのマイページ</h1>
+<h2>現在の予約</h2>
+{% for r in current_list %}
+    <div>
+        {{r.date_time}} - {{r.purpose}} (担当:{{r.employee.name}})
+        <a href="{% url 'reserve_edit' r.pk%}">編集</a>
+        <form action="{% url 'reserve_cancel' r.pk %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">キャンセル</button>
+        </form>
+    </div>
+{% comment %} current_listが空だった場合 {% endcomment %}
+{% empty %}
+    <p>現在の予約はありません</p>
+{% comment %} 下記にてループの終了を示す必要あり {% endcomment %}
+{% endfor %}
+
+<h2>キャンセル済みの予約</h2>
+{% for r in canceled_list %}
+    <p>
+        {{ r.purpose }} (担当: {{ r.employee.name }}) – キャンセル日時: {{ r.canceled_at }}
+  </p>
+{% empty %}
+    <p>キャンセル済みの予約はありません。</p>
+{% endfor %}
+
+<h2>過去の予約</h2>
+{% for r in past_list %}
+<p>{{r.date_time}} - {{r.purpose}} (担当:{{r.employee.name}})</p>
+{% empty %}
+    <p>過去の予約はありません</p>
+{% endfor %}
+
+<a href="{% url 'mypagesettings' %}">マイページを更新する</a>
+
+{% endblock%}
